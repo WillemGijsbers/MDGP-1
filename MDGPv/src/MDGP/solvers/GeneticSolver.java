@@ -14,8 +14,10 @@ import geneticAlgorithm.selectionOperator.RouletteWheelSelection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import MDGP.Distances;
+import MDGP.Group;
 import MDGP.Individual;
 
 /**
@@ -48,7 +50,7 @@ public class GeneticSolver {
 		co = new CrossoverOperatorInstance();
 		so = new RouletteWheelSelection<Individual, IndividualFitnessFunction>(ff);
 		sc = new MaxGenerationsStopCriterion<Individual>(100);
-		initialPopulation = new ArrayList<Individual>();
+		initialPopulation = Distances.getRandomSolutions(50);
 	}
 
 	private static void solve() {
