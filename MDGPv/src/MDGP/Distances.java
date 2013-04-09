@@ -57,6 +57,8 @@ public class Distances {
 		type = args[2] == "ds";
 		MIN_SIZE = Integer.parseInt(args[3]);
 		MAX_SIZE = Integer.parseInt(args[4]);
+		System.out.println("Min size = " + MIN_SIZE);
+		System.out.println("Max size = " + MAX_SIZE);
 	}
 
 	public static double getDistance(Instance one, Instance two) {
@@ -65,7 +67,6 @@ public class Distances {
 
 	public static void main(String[] args) throws IOException {
 		loadDistances(args[0]);
-		System.out.println(numberOfElements);
 		for (int i = 0; i != numberOfElements; ++i) {
 			for (int j = 0; j != numberOfElements; ++j)
 				System.out.print(data[i][j] + " ");
@@ -73,33 +74,39 @@ public class Distances {
 		}
 	}
 
-	private static List<Instance> instances;
+	private static ArrayList<Instance> instances;
 
+	@SuppressWarnings("unchecked")
 	public static List<Instance> getInstances(){
 		if(instances != null)
-			return instances;
+			return (List<Instance>) instances.clone();
 		else{
 			instances = new ArrayList<Instance>();
 			for (int i = 0 ; i != numberOfElements ; ++i){
 				instances.add(new Instance(i));
 			}
 		}
-		return instances;
+		return (List<Instance>) instances.clone();
 	}
 	
-	public static Collection<Individual> getRandomSolutions(int numberOfIndividuals) {
-		Collection<Individual> result = new ArrayList<Individual>();
+	public static List<Individual> getRandomSolutions(int numberOfIndividuals) {
+		List<Individual> result = new ArrayList<Individual>();
 		for(int nr = 0; nr != numberOfIndividuals ; ++nr){
 			List<Group> groups = new ArrayList<Group>();
+			List<Instance> instances = getInstances();
 			for(int i = 0 ; i != Distances.numberOfGroups; ++i){
 				Group group = new Group();
 				while (group.size() !=  Distances.MAX_SIZE)
 				{
-					int number = (int) (Math.random()*getInstances().size());
-					group.add(getInstances().get(number));
+					int number = (int) (Math.random()*instances.size());
+					Instance inst = instances.remove(number);
+					group.add(inst);
 				}
+				groups.add(group);
 			}
-			result.add(new Individual(MIN_SIZE, MAX_SIZE, groups));		
+			Individual indv = new Individual(MIN_SIZE, MAX_SIZE, groups);
+			System.out.println("Generated Individual = " + indv);
+			result.add(indv);		
 		}
 		return result;
 	}

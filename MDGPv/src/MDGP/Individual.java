@@ -17,9 +17,10 @@ public class Individual implements Tabu {
 		this.minSize = minSize;
 		this.maxSize = maxSize;
 		this.groups = groups;
-		if (!this.check()) {
+		/*if (!this.check()) {
+			System.out.println(this);
 			throw new IllegalArgumentException();
-		}
+		}*/
 	}
 
 	public boolean check() {
@@ -58,5 +59,21 @@ public class Individual implements Tabu {
 			score += group.score();
 		}
 		return score;
+	}
+	
+	@Override
+	public String toString(){
+		String result = "";
+		int count =0;
+		for(Group group : groups){
+			count++;
+			result = result + "[ Group " + count + " ";
+			for(Instance inst : group){
+				result = result + inst.number + " ";
+			}
+			result = result + "] \n";
+		}
+		result = result + "Score: " + this.score();
+		return result;
 	}
 }

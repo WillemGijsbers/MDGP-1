@@ -21,5 +21,10 @@ public final class Instance {
 	public Instance clone(){
 		return new Instance(this.number);
 	}
+	
+	@Override
+	public String toString(){
+		return "" + number;
+	}
 
 }

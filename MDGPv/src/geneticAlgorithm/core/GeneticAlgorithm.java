@@ -24,8 +24,8 @@ public class GeneticAlgorithm<InstanceType,
 	CrossoverOperatorType co;
 	SelectionOperatorType so;
 	StopCriterionType sc;
-	Collection<InstanceType> currentGeneration;
-	public GeneticAlgorithm(FitnessFunctionType ff,MutationOperatorType mo,CrossoverOperatorType co,SelectionOperatorType so,StopCriterionType sc,Collection<InstanceType> initialPopulation)
+	List<InstanceType> currentGeneration;
+	public GeneticAlgorithm(FitnessFunctionType ff,MutationOperatorType mo,CrossoverOperatorType co,SelectionOperatorType so,StopCriterionType sc,List<InstanceType> initialPopulation)
 	{
 		this.ff = ff;
 		this.mo = mo;
@@ -35,7 +35,7 @@ public class GeneticAlgorithm<InstanceType,
 		this.currentGeneration = initialPopulation;
 	}
 
-	public Collection<InstanceType> execute(){
+	public List<InstanceType> execute(){
 		while(sc.stop(currentGeneration)){
 			List<InstanceType> selectedIndividuals = so.select(currentGeneration,currentGeneration.size());
 			List<InstanceType> nextGeneration = new ArrayList<InstanceType>();

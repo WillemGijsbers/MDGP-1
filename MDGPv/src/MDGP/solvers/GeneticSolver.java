@@ -31,7 +31,7 @@ public class GeneticSolver {
 	private static CrossoverOperatorInstance co;
 	private static RouletteWheelSelection<Individual, IndividualFitnessFunction> so;
 	private static MaxGenerationsStopCriterion<Individual> sc;
-	private static Collection<Individual> initialPopulation;
+	private static List<Individual> initialPopulation;
 
 	/**
 	 * @param args
@@ -54,8 +54,11 @@ public class GeneticSolver {
 	}
 
 	private static void solve() {
+		System.out.println(initialPopulation.get(0));
 		GeneticAlgorithm<Individual, IndividualFitnessFunction, MutationOperatorInstance, CrossoverOperatorInstance, RouletteWheelSelection<Individual, IndividualFitnessFunction>, MaxGenerationsStopCriterion<Individual>> geneticAlgorithm = new GeneticAlgorithm<Individual, IndividualFitnessFunction, MutationOperatorInstance, CrossoverOperatorInstance, RouletteWheelSelection<Individual, IndividualFitnessFunction>, MaxGenerationsStopCriterion<Individual>>(
 				ff, mo, co, so, sc, initialPopulation);
-		geneticAlgorithm.execute();
+		/*for(Individual indv : geneticAlgorithm.execute()){
+			System.out.println(indv);
+		}*/
 	}
 }
