@@ -73,18 +73,18 @@ public class Distances {
 		}
 	}
 
-	private static List<Instance> individuals;
+	private static List<Instance> instances;
 
 	public static List<Instance> getInstances(){
-		if(individuals != null)
-			return individuals;
+		if(instances != null)
+			return instances;
 		else{
-			individuals = new ArrayList<Instance>();
+			instances = new ArrayList<Instance>();
 			for (int i = 0 ; i != numberOfElements ; ++i){
-				individuals.add(new Instance(i));
+				instances.add(new Instance(i));
 			}
 		}
-		return individuals;
+		return instances;
 	}
 	
 	public static Collection<Individual> getRandomSolutions(int numberOfIndividuals) {
@@ -95,11 +95,12 @@ public class Distances {
 				Group group = new Group();
 				while (group.size() !=  Distances.MAX_SIZE)
 				{
+					int number = (int) (Math.random()*getInstances().size());
+					group.add(getInstances().get(number));
 				}
 			}
-			
-			
+			result.add(new Individual(MIN_SIZE, MAX_SIZE, groups));		
 		}
-		return null;
+		return result;
 	}
 }

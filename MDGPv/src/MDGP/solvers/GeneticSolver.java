@@ -56,5 +56,6 @@ public class GeneticSolver {
 	private static void solve() {
 		GeneticAlgorithm<Individual, IndividualFitnessFunction, MutationOperatorInstance, CrossoverOperatorInstance, RouletteWheelSelection<Individual, IndividualFitnessFunction>, MaxGenerationsStopCriterion<Individual>> geneticAlgorithm = new GeneticAlgorithm<Individual, IndividualFitnessFunction, MutationOperatorInstance, CrossoverOperatorInstance, RouletteWheelSelection<Individual, IndividualFitnessFunction>, MaxGenerationsStopCriterion<Individual>>(
 				ff, mo, co, so, sc, initialPopulation);
+		geneticAlgorithm.execute();
 	}
 }
