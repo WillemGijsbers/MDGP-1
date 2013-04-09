@@ -6,7 +6,7 @@ import java.util.List;
 
 import TabuSearch.Tabu;
 
-public class Individual implements Tabu{
+public class Individual implements Tabu {
 	// contains Groups
 	private List<Group> groups = new ArrayList<Group>();
 	private int minSize;
@@ -35,27 +35,26 @@ public class Individual implements Tabu{
 	public List<Group> getGroups() {
 		return groups;
 	}
-
+	
 	@Override
-	public Individual clone() {
+	public Individual clone(){
 		List<Group> groups = new ArrayList<Group>();
-		for (Group g : this.groups) {
+		for(Group g: this.groups){
 			groups.add((Group) g.clone());
 		}
 		return new Individual(this.minSize, this.maxSize, groups);
 	}
-
-	public int getMinSize() {
+	
+	public int getMinSize(){
 		return minSize;
 	}
-
-	public int getMaxSize() {
+	public int getMaxSize(){
 		return maxSize;
 	}
-
-	public double score() {
+	
+	public double score(){
 		double score = 0;
-		for (Group group : groups) {
+		for(Group group : groups){
 			score += group.score();
 		}
 		return score;
