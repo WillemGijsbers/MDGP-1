@@ -36,7 +36,12 @@ public class GeneticAlgorithm<InstanceType,
 	}
 
 	public List<InstanceType> execute(){
+		int nrGeneration = 0;
+		InstanceType bestSolution = findBest(currentGeneration,null);
 		while(sc.stop(currentGeneration)){
+			nrGeneration++;
+			System.out.print("Current generation = " + nrGeneration);
+			System.out.println(" ==> Best solution = " + ff.fitness(bestSolution));
 			List<InstanceType> selectedIndividuals = so.select(currentGeneration,currentGeneration.size());
 			List<InstanceType> nextGeneration = new ArrayList<InstanceType>();
 			InstanceType reserve = selectedIndividuals.get(0);
@@ -59,7 +64,24 @@ public class GeneticAlgorithm<InstanceType,
 			}
 			currentGeneration = nextGeneration;
 			}
+			//bestSolution = findBest(currentGeneration,bestSolution);
+			currentGeneration.add(bestSolution);
 		}
+		bestSolution = findBest(currentGeneration,bestSolution);
+		System.out.println(" ==> Best solution = " + ff.fitness(bestSolution));
 		return currentGeneration;
+	}
+
+	private InstanceType findBest(List<InstanceType> currentGeneration2,
+			InstanceType object) {
+		double bestFitness = 0;
+		InstanceType result = object;
+		if (object != null)
+			bestFitness = ff.fitness(object);
+		for(InstanceType inst : currentGeneration2){
+			if(ff.fitness(inst) > bestFitness)
+				result = inst;
+		}
+		return result;
 	}
 }

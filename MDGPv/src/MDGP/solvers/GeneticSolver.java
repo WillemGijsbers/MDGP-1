@@ -49,16 +49,30 @@ public class GeneticSolver {
 		mo = new MutationOperatorInstance(0.10);
 		co = new CrossoverOperatorInstance();
 		so = new RouletteWheelSelection<Individual, IndividualFitnessFunction>(ff);
-		sc = new MaxGenerationsStopCriterion<Individual>(100);
-		initialPopulation = Distances.getRandomSolutions(50);
+		sc = new MaxGenerationsStopCriterion<Individual>(10000);
+		initialPopulation = Distances.getRandomSolutions(1000);
 	}
 
 	private static void solve() {
-		System.out.println(initialPopulation.get(0));
+		Individual bestFromInitial = findBest(initialPopulation);
 		GeneticAlgorithm<Individual, IndividualFitnessFunction, MutationOperatorInstance, CrossoverOperatorInstance, RouletteWheelSelection<Individual, IndividualFitnessFunction>, MaxGenerationsStopCriterion<Individual>> geneticAlgorithm = new GeneticAlgorithm<Individual, IndividualFitnessFunction, MutationOperatorInstance, CrossoverOperatorInstance, RouletteWheelSelection<Individual, IndividualFitnessFunction>, MaxGenerationsStopCriterion<Individual>>(
 				ff, mo, co, so, sc, initialPopulation);
-		/*for(Individual indv : geneticAlgorithm.execute()){
-			System.out.println(indv);
-		}*/
+		System.out.println("Solutions");
+		List<Individual> solved = geneticAlgorithm.execute();
+		Individual bestFromSolved = findBest(solved);
+//		System.out.println("Best from initial: ");
+//		System.out.println(bestFromInitial);
+//		System.out.println("Best from solved: ");
+//		System.out.println(bestFromSolved);
+	}
+
+	private static Individual findBest(List<Individual> initialPopulation2) {
+		double bestScore =0;
+		Individual result = null;
+		for (Individual indv : initialPopulation2){
+			if(indv.score()> bestScore)
+				result = indv;
+		}
+		return result;
 	}
 }

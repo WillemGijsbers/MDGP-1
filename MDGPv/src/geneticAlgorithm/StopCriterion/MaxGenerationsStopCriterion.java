@@ -20,7 +20,7 @@ public class MaxGenerationsStopCriterion<T> implements StopCriterion<T> {
 	@Override
 	public boolean stop(Collection<T> population) {
 		currentGenerations++;
-		return currentGenerations >= maxGenerations;
+		return currentGenerations <= maxGenerations;
 	}
 
 }

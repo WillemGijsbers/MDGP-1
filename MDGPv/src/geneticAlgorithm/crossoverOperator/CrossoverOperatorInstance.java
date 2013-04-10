@@ -1,7 +1,9 @@
 package geneticAlgorithm.crossoverOperator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import MDGP.Distances;
 import MDGP.Group;
@@ -11,16 +13,19 @@ import MDGP.Instance;
 public class CrossoverOperatorInstance implements CrossoverOperator<Individual> {
 
 	@Override
-	public List<Individual> crossover(Individual first, Individual second) {
+	public List<Individual> crossover(Individual firstUncloned, Individual secondUncloned) {
 		// IDee:
 		/*
 		 * 1) Kies de beste groep van een parent.. steek in kind 1 
 		 * 2) doe zo door, maar verwijder de overlappende instances 
 		 * 3) vul random de missende instances in.
 		 */
+		Individual first = firstUncloned.clone();
+		Individual second = secondUncloned.clone();
 		List<Instance> instances = getInstances(first);
 		List<Group> groups = new ArrayList<Group>();
-		for (int i = 0; i != first.getGroups().size(); ++i) {
+		int nrGroups = first.getGroups().size();
+		for (int i = 0; i != nrGroups; ++i) {
 			Group group = findBestGroupAfterOverlap(groups, first, second);
 			groups.add(group);
 		}
@@ -60,22 +65,32 @@ public class CrossoverOperatorInstance implements CrossoverOperator<Individual> 
 
 	private Group findBestGroupAfterOverlap(List<Group> groups,
 			Individual first, Individual second) {
-		Group currentBest = null;
+		Group currentBest = new Group();
 		double bestFitness = 0;
-		List<Group> allGroups = first.getGroups();
+		Set<Group> allGroups = new HashSet<Group>(first.getGroups());
 		allGroups.addAll(second.getGroups());
+		int counter = 0;
+		for(Group group : groups){
+			allGroups.remove(group);
+		}
 		for (Group group : allGroups) {
 			double fitness = fitnessAfterOverlap(groups, group);
-			if (fitness > bestFitness) {
+			group = group.removeOverlap(groups);
+			counter ++;
+			if (fitness > bestFitness) {				
 				currentBest = group;
-				fitness = bestFitness;
+				bestFitness = fitness;
 			}
 		}
 		return currentBest;
 	}
 
 	private double fitnessAfterOverlap(List<Group> groups, Group fitnessGroup) {
+		boolean contains = groups.contains(fitnessGroup);
+		if(contains)
+			return 0;
 		for (Group group : groups) {
+			if(group != fitnessGroup && group != null)
 			for (Instance instance : group) {
 				fitnessGroup.remove(instance);
 			}

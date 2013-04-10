@@ -2,6 +2,7 @@ package geneticAlgorithm.selectionOperator;
 
 import geneticAlgorithm.FitnessFunction.FitnessFunction;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,11 +40,13 @@ public class RouletteWheelSelection<T,FitnessFunctionType extends FitnessFunctio
 
 	private T SelectOne(HashMap<T,Double> population) {
 		double rand  = Math.random();
+		T last = null;
 		for (T individual : population.keySet()){
+			last = individual;
 			rand -= population.get(individual);
 			if (rand <= 0)
 				return individual;
 		}
-		throw new IllegalStateException();
+		return last;
 	}
 }

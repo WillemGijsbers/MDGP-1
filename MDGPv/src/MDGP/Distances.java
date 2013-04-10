@@ -105,7 +105,6 @@ public class Distances {
 				groups.add(group);
 			}
 			Individual indv = new Individual(MIN_SIZE, MAX_SIZE, groups);
-			System.out.println("Generated Individual = " + indv);
 			result.add(indv);		
 		}
 		return result;

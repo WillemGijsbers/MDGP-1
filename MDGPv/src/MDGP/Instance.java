@@ -27,4 +27,10 @@ public final class Instance {
 		return "" + number;
 	}
 
+	@Override
+	public boolean equals(Object target){
+		if(!(target instanceof Instance))
+			return false;
+		return this.number == ((Instance)target).number;
+	}
 }

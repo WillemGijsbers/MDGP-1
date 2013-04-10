@@ -1,6 +1,7 @@
 package MDGP;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Group extends ArrayList<Instance> {
 
@@ -30,12 +31,25 @@ public class Group extends ArrayList<Instance> {
 
 	public double score() {
 		double score = 0;
+		if(size() < 2)
+			return 0;
 		for(int i = 0 ; i != this.size() -1 ; ++i){
 			for(int j = i +1 ; j != this.size() ; ++j){
-				score += Distances.getDistance(this.get(i), this.get(j));
+				try{
+					score += Distances.getDistance(this.get(i), this.get(j));
+				}catch(IndexOutOfBoundsException e){
+					System.out.println("Index out of bounds: i = " + i + " j = " + j + "Size = " + this.size());
+				}
 			}
 		}
 		return score;
+	}
+
+	public Group removeOverlap(List<Group> groups) {
+		for(Group group : groups){
+			this.removeAll(group);
+		}
+		return this;
 	}
 
 }

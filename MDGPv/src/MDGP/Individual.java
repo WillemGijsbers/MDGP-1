@@ -17,20 +17,25 @@ public class Individual implements Tabu {
 		this.minSize = minSize;
 		this.maxSize = maxSize;
 		this.groups = groups;
-		/*if (!this.check()) {
+		if (!this.check()) {
 			System.out.println(this);
 			throw new IllegalArgumentException();
-		}*/
+		}
 	}
 
 	public boolean check() {
-		int acc = 0;
-		for (Group group : this.groups) {
-			if (!group.check(this.minSize, this.maxSize))
-				return false;
-			acc += group.size();
+		for(int i = 0; i != groups.size()-1;++i){
+			Group first = groups.get(i);
+			for(int j = i + 1 ; j != groups.size(); ++j)
+			{
+				Group second = groups.get(j);
+				for(Instance instance : first){
+					if(second.contains(instance))
+						return false;
+				}
+			}
 		}
-		return acc == this.instances;
+		return true;
 	}
 
 	public List<Group> getGroups() {
@@ -67,7 +72,7 @@ public class Individual implements Tabu {
 		int count =0;
 		for(Group group : groups){
 			count++;
-			result = result + "[ Group " + count + " ";
+			result = result + "[ Group " + count + ": ";
 			for(Instance inst : group){
 				result = result + inst.number + " ";
 			}

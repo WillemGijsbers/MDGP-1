@@ -22,13 +22,15 @@ public class MutationOperatorInstance implements MutationOperator<Individual> {
 			return parent;
 		if(parent.getGroups().size() < 2)
 			return parent;
-		int group1 = (int) (Math.random() * (parent.getGroups().size()-1));
+		int group1 = (int) (Math.random() * (parent.getGroups().size()));
 		int group2 = 0;
 		while (group1 == group2){
-			group2 = (int) (Math.random() * (parent.getGroups().size()-1));
+			group2 = (int) (Math.random() * (parent.getGroups().size()));
 		}
-		Group groupOne = parent.getGroups().remove(group1);
-		Group groupTwo = parent.getGroups().remove(group2);
+		Group groupOne = parent.getGroups().get(group1);
+		Group groupTwo = parent.getGroups().get(group2);
+		parent.getGroups().remove(groupOne);
+		parent.getGroups().remove(groupTwo);
 
 		int maxNrInstancesToSwitch = 0;
 		if(groupOne.size() < groupTwo.size())
@@ -47,8 +49,9 @@ public class MutationOperatorInstance implements MutationOperator<Individual> {
 		
 		for(Instance instance : individualsFromGroupOne)
 			groupTwo.add(instance);
-		
-		return null;
+		parent.getGroups().add(groupOne);
+		parent.getGroups().add(groupTwo);
+		return parent;
 	}
 
 	private Collection<Instance> getRandomInstancesFrom(List<Instance> instances,int N){
